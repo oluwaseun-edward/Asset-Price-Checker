@@ -1,6 +1,7 @@
 from email.message import EmailMessage
 import smtplib
 import os
+from datetime import date, timedelta
 import requests
 from dotenv import load_dotenv
 
@@ -14,6 +15,10 @@ email_password = os.getenv("GMail_password")
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
 
+today = date.today()
+date_48h_ago = today-timedelta(days=2)
+news_start_date = date_48h_ago.strftime('%Y-%m-%d')
+
 # Documentation for alphavantage: https://www.alphavantage.co/documentation/#daily
 currency_params = {
     "function": "DIGITAL_CURRENCY_DAILY",
@@ -26,7 +31,7 @@ news_params = {
     "apikey": newsapi,
     "q": "bitcoin",
     "language": "en",
-    "from": "2024-05-29",
+    "from": news_start_date,
     "searchIn": "title"
 }
 
